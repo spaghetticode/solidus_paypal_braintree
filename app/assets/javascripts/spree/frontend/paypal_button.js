@@ -19,7 +19,7 @@ $(document).ready(function() {
       }).
       load(function() {
         var paypalOptions = {
-          flow: 'vault',
+          flow: window.payPalFlow,
           enableShippingAddress: true
         }
         var button = new SolidusPaypalBraintree.createPaypalButton(document.querySelector("#paypal-button"), paypalOptions);

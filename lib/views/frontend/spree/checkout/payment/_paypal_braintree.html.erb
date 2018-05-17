@@ -2,6 +2,10 @@
 <% id = payment_method.id %>
 
 <% content_for :head do %>
+  <script>
+    window.payPalFlow = '<%= SolidusPaypalBraintree::Gateway.first.preferred_paypal_flow %>';
+  </script>
+
   <script src="https://js.braintreegateway.com/web/3.22.1/js/client.min.js"></script>
   <script src="https://js.braintreegateway.com/web/3.22.1/js/data-collector.min.js"></script>
 
@@ -45,10 +49,12 @@
     }
 
     var paypalOptions = {
-      flow: 'vault',
+      flow: window.payPalFlow,
       enableShippingAddress: true,
       shippingAddressOverride: address,
-      shippingAddressEditable: false
+      shippingAddressEditable: false,
+      amount: '<%= current_order.total %>',
+      currency: '<%= current_order.currency %>'
     }
 
     var button = new SolidusPaypalBraintree.createPaypalButton(document.querySelector("#paypal-button"), paypalOptions);

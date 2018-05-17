@@ -15,8 +15,13 @@ describe "Checkout", type: :feature, js: true do
   let!(:payment_method) { create_gateway }
   let!(:zone) { create(:zone) }
 
-  context "goes through checkout using paypal one touch", vcr: { cassette_name: 'paypal/one_touch_checkout', match_requests_on: [:method, :uri] } do
+  context "goes through checkout using paypal one touch with the Vault flow", vcr: { cassette_name: 'paypal/one_touch_checkout', match_requests_on: [:method, :uri] } do
     before do
+      SolidusPaypalBraintree::Gateway.first.tap do |gateway|
+        gateway.preferred_paypal_flow = 'vault'
+        gateway.save!
+      end
+
       payment_method
       add_mug_to_cart
     end
@@ -31,8 +36,64 @@ describe "Checkout", type: :feature, js: true do
     end
   end
 
-  context "goes through checkout using paypal", vcr: { cassette_name: 'paypal/checkout', match_requests_on: [:method, :uri] } do
+  context "goes through checkout using paypal one touch with the Checkout with PayPal flow", vcr: { cassette_name: 'paypal/one_touch_checkout', match_requests_on: [:method, :uri] } do
     before do
+      SolidusPaypalBraintree::Gateway.first.tap do |gateway|
+        gateway.preferred_paypal_flow = 'checkout'
+        gateway.save!
+      end
+
+      payment_method
+      add_mug_to_cart
+    end
+
+    it "should check out successfully using one touch" do
+      pend_if_paypal_slow do
+        move_through_paypal_popup
+        expect(page).to have_content("Shipments")
+        click_on "Place Order"
+        expect(page).to have_content("Your order has been processed successfully")
+      end
+    end
+  end
+
+  context "goes through checkout using paypal with the Vault flow", vcr: { cassette_name: 'paypal/checkout', match_requests_on: [:method, :uri] } do
+    before do
+      SolidusPaypalBraintree::Gateway.first.tap do |gateway|
+        gateway.preferred_paypal_flow = 'vault'
+        gateway.save!
+      end
+
+      payment_method
+      add_mug_to_cart
+    end
+
+    it "should check out successfully through regular checkout" do
+      expect(page).to have_button("paypal-button")
+      click_button("Checkout")
+      fill_in("order_email", with: "stembolt_buyer@stembolttest.com")
+      click_button("Continue")
+      expect(page).to have_content("Customer E-Mail")
+      fill_in_address
+      click_button("Save and Continue")
+      expect(page).to have_content("SHIPPING METHOD")
+      click_button("Save and Continue")
+      pend_if_paypal_slow do
+        move_through_paypal_popup
+        expect(page).to have_content("Shipments")
+        click_on "Place Order"
+        expect(page).to have_content("Your order has been processed successfully")
+      end
+    end
+  end
+
+  context "goes through checkout using paypal with the Checkout with PayPal flow", vcr: { cassette_name: 'paypal/checkout', match_requests_on: [:method, :uri] } do
+    before do
+      SolidusPaypalBraintree::Gateway.first.tap do |gateway|
+        gateway.preferred_paypal_flow = 'checkout'
+        gateway.save!
+      end
+
       payment_method
       add_mug_to_cart
     end
