@@ -18,5 +18,14 @@ FactoryBot.modify do
   factory :address do
     zipcode { '21088-0255' }
     lastname { 'Doe' }
+
+    unless SolidusPaypalBraintree.combined_first_and_last_name_in_address?
+      transient do
+        name { "John Von Doe" }
+      end
+
+      firstname { name.split(' ').first }
+      lastname { name.split(' ')[1..-1].join(' ') }
+    end
   end
 end
