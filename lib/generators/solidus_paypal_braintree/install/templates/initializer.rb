@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Spree::Config.config do |config|
+Spree::Config.configure do |config|
   config.static_model_preferences.add(
     SolidusPaypalBraintree::Gateway,
     'braintree_credentials', {
