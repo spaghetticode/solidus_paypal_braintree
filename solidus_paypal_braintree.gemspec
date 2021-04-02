@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activemerchant', '~> 1.48'
   spec.add_dependency 'braintree', '~> 2.65'
   spec.add_dependency 'solidus_core', ['>= 2.0.0', '< 3']
-  spec.add_dependency 'solidus_support', '~> 0.5'
+  spec.add_dependency 'solidus_support', ['>= 0.8.1', '< 1']
 
   spec.add_development_dependency 'solidus_dev_support', '~> 2.4'
   spec.add_development_dependency 'selenium-webdriver'
