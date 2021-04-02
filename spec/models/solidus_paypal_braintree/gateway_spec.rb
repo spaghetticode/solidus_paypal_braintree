@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'spec_helper'
 require 'webmock'
 require 'support/order_ready_for_payment'
@@ -12,7 +13,7 @@ RSpec.describe SolidusPaypalBraintree::Gateway do
   let(:user) { create :user }
 
   let(:source) do
-    SolidusPaypalBraintree::Source.new(
+    SolidusPaypalBraintree::Source.create!(
       nonce: 'fake-valid-nonce',
       user: user,
       payment_type: payment_type,
