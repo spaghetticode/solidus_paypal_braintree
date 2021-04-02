@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'solidus_dev_support', '~> 2.4'
   spec.add_development_dependency 'selenium-webdriver'
+  spec.add_development_dependency 'rails-controller-testing'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
 end
