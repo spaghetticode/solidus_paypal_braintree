@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'solidus_core'
+require 'solidus_paypal_braintree/configuration'
 require 'solidus_paypal_braintree/version'
 require 'solidus_paypal_braintree/engine'
 require 'solidus_paypal_braintree/country_mapper'
