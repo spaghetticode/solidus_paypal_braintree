@@ -219,7 +219,7 @@ describe SolidusPaypalBraintree::TransactionAddress do
       end
     end
 
-    if SolidusSupport.combined_first_and_last_name_in_address?
+    unless SolidusSupport.combined_first_and_last_name_in_address?
       context 'when using first_name and last_name' do
         let(:address_params) { super().merge({ first_name: "Bruce", last_name: "Wayne" }) }
 
