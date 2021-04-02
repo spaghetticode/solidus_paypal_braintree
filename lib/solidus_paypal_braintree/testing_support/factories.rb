@@ -19,7 +19,9 @@ FactoryBot.modify do
   factory :address do
     zipcode { '21088-0255' }
 
-    unless SolidusSupport.combined_first_and_last_name_in_address?
+    if SolidusSupport.combined_first_and_last_name_in_address?
+      name { 'John Doe' }
+    else
       transient do
         name { "John Doe" }
       end

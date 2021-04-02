@@ -14,7 +14,7 @@ module SolidusPaypalBraintree
       def full_name
         name
       end
-        
+
       unless ::Spree::Address.methods.include?(:firstname)
         ::Spree::Address.prepend self
       end

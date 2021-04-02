@@ -52,11 +52,11 @@ module SolidusPaypalBraintree
       )
 
       if SolidusSupport.combined_first_and_last_name_in_address?
-        if first_name.nil?
-          address.name = name
-        else
-          address.name = [first_name, last_name].join(" ")
-        end
+        address.name = if first_name.nil?
+                         name
+                       else
+                         [first_name, last_name].join(" ")
+                       end
       else
         ::Spree::Deprecation.warn("first_name and last_name are deprecated. Use name instead.", caller)
         if first_name.nil?
