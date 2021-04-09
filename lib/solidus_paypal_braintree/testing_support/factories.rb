@@ -23,7 +23,7 @@ FactoryBot.modify do
       name { 'John Doe' }
     else
       transient do
-        name { "John Doe" }
+        name { 'John Doe' }
       end
 
       firstname { SolidusPaypalBraintree::Address::Name.new(name).first_name }
