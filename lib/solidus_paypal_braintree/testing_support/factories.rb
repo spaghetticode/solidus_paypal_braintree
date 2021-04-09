@@ -20,14 +20,12 @@ FactoryBot.modify do
     zipcode { '21088-0255' }
 
     if SolidusSupport.combined_first_and_last_name_in_address?
-      name { 'John Doe' }
-    else
       transient do
-        name { 'John Doe' }
+        firstname { "John" }
+        lastname { "Doe" }
       end
 
-      firstname { SolidusPaypalBraintree::Address::Name.new(name).first_name }
-      lastname { SolidusPaypalBraintree::Address::Name.new(name).last_name }
+      name { "#{firstname} #{lastname}" }
     end
   end
 end
