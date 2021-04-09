@@ -24,10 +24,8 @@ FactoryBot.modify do
         name { "John Doe" }
       end
 
-      firstname { name.split(' ').first }
-      lastname { name.split(' ')[1..-1].join(' ') }
-    else
-      name { 'John Doe' }
+      firstname { SolidusPaypalBraintree::Address::Name.new(name).first_name }
+      lastname { SolidusPaypalBraintree::Address::Name.new(name).last_name }
     end
   end
 end
