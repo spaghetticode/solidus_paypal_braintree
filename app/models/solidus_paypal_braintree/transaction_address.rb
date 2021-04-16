@@ -8,6 +8,15 @@ module SolidusPaypalBraintree
     include ActiveModel::Validations::Callbacks
     include SolidusPaypalBraintree::CountryMapper
 
+    def self.split_name(name)
+      if defined?(Spree::Address::Name)
+        address_name = Spree::Address::Name.new(name)
+        [address_name.first_name, address_name.last_name]
+      else
+        name.strip.split(' ', 2)
+      end
+    end
+
     attr_accessor :country_code, :name, :city, :zip, :state_code,
       :address_line_1, :address_line_2, :first_name, :last_name
 
@@ -75,15 +84,6 @@ module SolidusPaypalBraintree
         address.state_name = state_code
       end
       address
-    end
-
-    def split_name(name)
-      if defined?(Spree::Address::Name)
-        address_name = Spree::Address::Name.new(name)
-        [address_name.first_name, address_name.last_name]
-      else
-        name.strip.split(' ', 2)
-      end
     end
 
     # Check to see if this address should match to a state model in the database
