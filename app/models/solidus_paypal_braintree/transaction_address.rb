@@ -69,7 +69,7 @@ module SolidusPaypalBraintree
       else
         ::Spree::Deprecation.warn("first_name and last_name are deprecated. Use name instead.", caller)
         if first_name.nil?
-          first, last = SolidusPaypalBraintree::Address.split(name)
+          first, last = self.class.split_name(name)
           address.firstname = first
           address.lastname = last || "(left blank)"
         else
