@@ -63,14 +63,6 @@ module SolidusPaypalBraintree
 
     private
 
-    def name_evaluator
-      if SolidusSupport.combined_first_and_last_name_in_address?
-        Name.new(spree_address.name)
-      else
-        Name.new(spree_address.firstname, spree_address.last_name)
-      end
-    end
-
     attr_reader :spree_address
   end
 end
